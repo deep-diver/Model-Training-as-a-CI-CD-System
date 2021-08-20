@@ -1,5 +1,7 @@
 # Model Training as a CI CD System
 
+![overview](figures/overview.png)
+
 This project demonstrates the machine model training as a CI/CD system in GCP platform. You will see more detailed workflow in the below section, but it is about rebuilding and redeploying the currently machine learnin gpipeline based on changes in code. Such changes could happen in data pre-processing, custom model building, custom model training, custom pipeline components, and so on.
 
 ## Workflow in a nutshell 
