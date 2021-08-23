@@ -75,7 +75,6 @@ def run():
       # BIG_QUERY_WITH_DIRECT_RUNNER_BEAM_PIPELINE_ARGS,
       # TODO(step 8): (Optional) Uncomment below to use Dataflow.
       # beam_pipeline_args=configs.DATAFLOW_BEAM_PIPELINE_ARGS,
-      # TODO(step 9): (Optional) Uncomment below to use Cloud AI Platform.
       ai_platform_training_args=configs.GCP_AI_PLATFORM_TRAINING_ARGS,
       # TODO(step 9): (Optional) Uncomment below to use Cloud AI Platform.
       # ai_platform_serving_args=configs.GCP_AI_PLATFORM_SERVING_ARGS,
