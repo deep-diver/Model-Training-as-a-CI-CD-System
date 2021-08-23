@@ -13,7 +13,7 @@ env:
             _REGION=us-central1,
             _REPO_URL=https://github.com/deep-diver/Model-Training-as-a-CI-CD-System,
             _BRANCH=main,
-            _PIPELINE_NAME=my-pipeline"
+            _PIPELINE_NAME=my-pipeline
 
 jobs:
   build:
