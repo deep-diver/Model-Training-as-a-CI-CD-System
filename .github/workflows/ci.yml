@@ -39,7 +39,7 @@ jobs:
                   - 'tfx-pipeline/**'
 
       - name: trigger cloud build based on component changes
-        if: steps.my-pipeline-change.outputs.components == 'true'
+        if: steps.my-pipeline-change.outputs.tfx-pipeline == 'true'
         run: |
           gcloud builds submit --no-source --timeout=60m \
           --config build/pipeline-deployment.yaml \
