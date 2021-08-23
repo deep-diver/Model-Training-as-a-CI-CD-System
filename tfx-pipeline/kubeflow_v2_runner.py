@@ -69,14 +69,10 @@ def run():
       eval_args=trainer_pb2.EvalArgs(num_steps=configs.EVAL_NUM_STEPS),
       eval_accuracy_threshold=configs.EVAL_ACCURACY_THRESHOLD,
       serving_model_dir=_SERVING_MODEL_DIR,
-      # TODO(step 7): (Optional) Uncomment here to use provide GCP related
-      #               config for BigQuery with Beam DirectRunner.
-      # beam_pipeline_args=configs.
-      # BIG_QUERY_WITH_DIRECT_RUNNER_BEAM_PIPELINE_ARGS,
-      # TODO(step 8): (Optional) Uncomment below to use Dataflow.
+      # Uncomment below to use Dataflow.
       # beam_pipeline_args=configs.DATAFLOW_BEAM_PIPELINE_ARGS,
       ai_platform_training_args=configs.GCP_AI_PLATFORM_TRAINING_ARGS,
-      # TODO(step 9): (Optional) Uncomment below to use Cloud AI Platform.
+      # Uncomment below to use Cloud AI Platform.
       # ai_platform_serving_args=configs.GCP_AI_PLATFORM_SERVING_ARGS,
   )
 
