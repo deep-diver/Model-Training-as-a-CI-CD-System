@@ -57,20 +57,20 @@ def create_pipeline(
   statistics_gen = tfx.components.StatisticsGen(
       examples=example_gen.outputs['examples'])
   # TODO(step 5): Uncomment here to add StatisticsGen to the pipeline.
-  components.append(statistics_gen)
+  # components.append(statistics_gen)
 
   # Generates schema based on statistics files.
   schema_gen = tfx.components.SchemaGen(
       statistics=statistics_gen.outputs['statistics'], infer_feature_shape=True)
   # TODO(step 5): Uncomment here to add SchemaGen to the pipeline.
-  components.append(schema_gen)
+  # components.append(schema_gen)
 
   # Performs anomaly detection based on statistics and data schema.
   example_validator = tfx.components.ExampleValidator(  # pylint: disable=unused-variable
       statistics=statistics_gen.outputs['statistics'],
       schema=schema_gen.outputs['schema'])
   # TODO(step 5): Uncomment here to add ExampleValidator to the pipeline.
-  components.append(example_validator)
+  # components.append(example_validator)
 
   # Performs transformations and feature engineering in training and serving.
   transform = tfx.components.Transform(
@@ -78,7 +78,7 @@ def create_pipeline(
       schema=schema_gen.outputs['schema'],
       preprocessing_fn=preprocessing_fn)
   # TODO(step 6): Uncomment here to add Transform to the pipeline.
-  components.append(transform)
+  # components.append(transform)
 
   # Uses user-provided Python function that implements a model using TF-Learn.
   trainer_args = {
@@ -98,7 +98,7 @@ def create_pipeline(
   else:
     trainer = tfx.components.Trainer(**trainer_args)
   # TODO(step 6): Uncomment here to add Trainer to the pipeline.
-  components.append(trainer)
+  # components.append(trainer)
 
   # Get the latest blessed model for model validation.
   model_resolver = tfx.dsl.Resolver(
@@ -108,7 +108,7 @@ def create_pipeline(
           type=tfx.types.standard_artifacts.ModelBlessing)).with_id(
               'latest_blessed_model_resolver')
   # TODO(step 6): Uncomment here to add Resolver to the pipeline.
-  components.append(model_resolver)
+  # components.append(model_resolver)
 
   # Uses TFMA to compute a evaluation statistics over features of a model and
   # perform quality validation of a candidate model (compared to a baseline).
@@ -139,7 +139,7 @@ def create_pipeline(
       # Change threshold will be ignored if there is no baseline (first run).
       eval_config=eval_config)
   # TODO(step 6): Uncomment here to add Evaluator to the pipeline.
-  components.append(evaluator)
+  # components.append(evaluator)
 
   # Checks whether the model passed the validation steps and pushes the model
   # to a file destination if check passed.
@@ -162,13 +162,15 @@ def create_pipeline(
             base_directory=serving_model_dir))
     pusher = tfx.components.Pusher(**pusher_args)  # pylint: disable=unused-variable
   # TODO(step 6): Uncomment here to add Pusher to the pipeline.
-  components.append(pusher)
+  # components.append(pusher)
 
   return tfx.dsl.Pipeline(
       pipeline_name=pipeline_name,
       pipeline_root=pipeline_root,
       components=components,
-      enable_cache=True,
+      # Change this value to control caching of execution results. Default value
+      # is `False`.
+      # enable_cache=True,
       metadata_connection_config=metadata_connection_config,
       beam_pipeline_args=beam_pipeline_args,
   )

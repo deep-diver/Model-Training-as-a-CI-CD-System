@@ -19,7 +19,7 @@ steps:
           '--pipeline-path', 'kubeflow_v2_runner.py',
           '--engine', 'vertex',
         ]
-  dir: 'Model-Training-as-a-CI-CD-System/example/my-pipeline'
+  dir: 'Model-Training-as-a-CI-CD-System/tfx-pipeline'
   id: 'Compile Pipeline'
   waitFor: ['Clone Repository']
 
@@ -30,7 +30,7 @@ steps:
           '--engine', 'vertex',
           '--build-image'
         ]
-  dir: 'Model-Training-as-a-CI-CD-System/example/my-pipeline'
+  dir: 'Model-Training-as-a-CI-CD-System/tfx-pipeline'
   id: 'Create Pipeline'
   waitFor: ['Compile Pipeline']  
 
@@ -43,6 +43,6 @@ steps:
           '--project', '$_PROJECT',
           '--region', '$_REGION'
         ]
-  dir: 'Model-Training-as-a-CI-CD-System/example/my-pipeline'
+  dir: 'Model-Training-as-a-CI-CD-System/tfx-pipeline'
   id: 'Create Pipeline Run'
   waitFor: ['Create Pipeline']
