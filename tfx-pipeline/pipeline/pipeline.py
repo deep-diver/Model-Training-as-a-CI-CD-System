@@ -48,37 +48,30 @@ def create_pipeline(
 
   # Brings data into the pipeline or otherwise joins/converts training data.
   example_gen = tfx.components.CsvExampleGen(input_base=data_path)
-  # TODO(step 7): (Optional) Uncomment here to use BigQuery as a data source.
-  # example_gen = tfx.extensions.google_cloud_big_query.BigQueryExampleGen(
-  #     query=query)
   components.append(example_gen)
 
   # Computes statistics over data for visualization and example validation.
   statistics_gen = tfx.components.StatisticsGen(
-      examples=example_gen.outputs['examples'])
-  # TODO(step 5): Uncomment here to add StatisticsGen to the pipeline.
-  # components.append(statistics_gen)
+      examples=example_gen.outputs['examples'])  
+  components.append(statistics_gen)
 
   # Generates schema based on statistics files.
   schema_gen = tfx.components.SchemaGen(
       statistics=statistics_gen.outputs['statistics'], infer_feature_shape=True)
-  # TODO(step 5): Uncomment here to add SchemaGen to the pipeline.
-  # components.append(schema_gen)
+  components.append(schema_gen)
 
   # Performs anomaly detection based on statistics and data schema.
   example_validator = tfx.components.ExampleValidator(  # pylint: disable=unused-variable
       statistics=statistics_gen.outputs['statistics'],
       schema=schema_gen.outputs['schema'])
-  # TODO(step 5): Uncomment here to add ExampleValidator to the pipeline.
-  # components.append(example_validator)
+  components.append(example_validator)
 
   # Performs transformations and feature engineering in training and serving.
   transform = tfx.components.Transform(
       examples=example_gen.outputs['examples'],
       schema=schema_gen.outputs['schema'],
       preprocessing_fn=preprocessing_fn)
-  # TODO(step 6): Uncomment here to add Transform to the pipeline.
-  # components.append(transform)
+  components.append(transform)
 
   # Uses user-provided Python function that implements a model using TF-Learn.
   trainer_args = {
@@ -97,8 +90,7 @@ def create_pipeline(
     trainer = tfx.extensions.google_cloud_ai_platform.Trainer(**trainer_args)
   else:
     trainer = tfx.components.Trainer(**trainer_args)
-  # TODO(step 6): Uncomment here to add Trainer to the pipeline.
-  # components.append(trainer)
+  components.append(trainer)
 
   # Get the latest blessed model for model validation.
   model_resolver = tfx.dsl.Resolver(
@@ -107,8 +99,7 @@ def create_pipeline(
       model_blessing=tfx.dsl.Channel(
           type=tfx.types.standard_artifacts.ModelBlessing)).with_id(
               'latest_blessed_model_resolver')
-  # TODO(step 6): Uncomment here to add Resolver to the pipeline.
-  # components.append(model_resolver)
+  components.append(model_resolver)
 
   # Uses TFMA to compute a evaluation statistics over features of a model and
   # perform quality validation of a candidate model (compared to a baseline).
@@ -138,8 +129,7 @@ def create_pipeline(
       baseline_model=model_resolver.outputs['model'],
       # Change threshold will be ignored if there is no baseline (first run).
       eval_config=eval_config)
-  # TODO(step 6): Uncomment here to add Evaluator to the pipeline.
-  # components.append(evaluator)
+  components.append(evaluator)
 
   # Checks whether the model passed the validation steps and pushes the model
   # to a file destination if check passed.
@@ -161,8 +151,7 @@ def create_pipeline(
         filesystem=tfx.proto.PushDestination.Filesystem(
             base_directory=serving_model_dir))
     pusher = tfx.components.Pusher(**pusher_args)  # pylint: disable=unused-variable
-  # TODO(step 6): Uncomment here to add Pusher to the pipeline.
-  # components.append(pusher)
+  components.append(pusher)
 
   return tfx.dsl.Pipeline(
       pipeline_name=pipeline_name,
