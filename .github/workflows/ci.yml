@@ -7,6 +7,14 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+env:
+  SUBSTITUTIONS: >-
+            _PROJECT=gcp-ml-172005,
+            _REGION=us-central1,
+            _REPO_URL=https://github.com/deep-diver/Model-Training-as-a-CI-CD-System,
+            _BRANCH=main,
+            _PIPELINE_NAME=my-pipeline"
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -34,10 +42,5 @@ jobs:
         run: |
           gcloud builds submit --no-source --timeout=60m \
           --config build/pipeline-deployment.yaml \
-          --substitutions \
-            "_PROJECT=gcp-ml-172005,\
-            _REGION=us-central1,\
-            _REPO_URL=https://github.com/deep-diver/Model-Training-as-a-CI-CD-System,\
-            _BRANCH=main,\
-            _PIPELINE_NAME=my-pipeline" \
+          --substitutions $SUBSTITUTIONS \
           --machine-type=n1-highcpu-8
