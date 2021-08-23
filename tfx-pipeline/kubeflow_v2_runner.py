@@ -58,9 +58,12 @@ def run():
       eval_args=trainer_pb2.EvalArgs(num_steps=configs.EVAL_NUM_STEPS),
       eval_accuracy_threshold=configs.EVAL_ACCURACY_THRESHOLD,
       serving_model_dir=_SERVING_MODEL_DIR,
+    
       # Uncomment below to use Dataflow.
       # beam_pipeline_args=configs.DATAFLOW_BEAM_PIPELINE_ARGS,
+    
       ai_platform_training_args=configs.GCP_AI_PLATFORM_TRAINING_ARGS,
+    
       # Uncomment below to use Cloud AI Platform.
       # ai_platform_serving_args=configs.GCP_AI_PLATFORM_SERVING_ARGS,
   )
