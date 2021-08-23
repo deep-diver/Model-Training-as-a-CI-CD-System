@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 env:
-  SUBSTITUTIONS: >
+  SUBSTITUTIONS: >-
             _PROJECT=gcp-ml-172005,
             _REGION=us-central1,
             _REPO_URL=https://github.com/deep-diver/Model-Training-as-a-CI-CD-System,
