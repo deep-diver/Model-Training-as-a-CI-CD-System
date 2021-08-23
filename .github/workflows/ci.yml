@@ -9,10 +9,10 @@ on:
 
 env:
   SUBSTITUTIONS: >-
-            _PROJECT=gcp-ml-172005,
-            _REGION=us-central1,
-            _REPO_URL=https://github.com/deep-diver/Model-Training-as-a-CI-CD-System,
-            _BRANCH=main,
+            _PROJECT=gcp-ml-172005,\
+            _REGION=us-central1,\
+            _REPO_URL=https://github.com/deep-diver/Model-Training-as-a-CI-CD-System,\
+            _BRANCH=main,\
             _PIPELINE_NAME=my-pipeline
 
 jobs:
