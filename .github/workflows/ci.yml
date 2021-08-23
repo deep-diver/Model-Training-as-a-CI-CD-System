@@ -32,4 +32,12 @@ jobs:
       - name: trigger cloud build based on component changes
         # if: steps.my-pipeline-change.outputs.components == 'true'
         run: |
-          gcloud builds submit --no-source --timeout=60m --config build/pipeline-deployment.yaml --substitutions _PROJECT=gcp-ml-172005,_REGION=us-central1,_REPO_URL=https://github.com/deep-diver/Model-Training-as-a-CI-CD-System,_BRANCH=main,_PIPELINE_NAME=my-pipeline --machine-type=n1-highcpu-8
+          gcloud builds submit --no-source --timeout=60m \
+          --config build/pipeline-deployment.yaml \
+          --substitutions \
+            _PROJECT=gcp-ml-172005,\
+            _REGION=us-central1,\
+            _REPO_URL=https://github.com/deep-diver/Model-Training-as-a-CI-CD-System,\
+            _BRANCH=main,\
+            _PIPELINE_NAME=my-pipeline \
+          --machine-type=n1-highcpu-8
