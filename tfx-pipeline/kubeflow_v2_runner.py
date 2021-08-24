@@ -34,8 +34,7 @@ _OUTPUT_DIR = os.path.join('gs://', configs.GCS_BUCKET_NAME)
 _PIPELINE_ROOT = os.path.join(_OUTPUT_DIR, 'tfx_pipeline_output',
                               configs.PIPELINE_NAME)
 
-# The last component of the pipeline, "Pusher" will produce serving model under
-# SERVING_MODEL_DIR.
+# The last component of the pipeline, "Pusher" will produce serving model under SERVING_MODEL_DIR.
 _SERVING_MODEL_DIR = os.path.join(_PIPELINE_ROOT, 'serving_model')
 
 _DATA_PATH = 'gs://{}/tfx-template/data/taxi/'.format(configs.GCS_BUCKET_NAME)
@@ -50,22 +49,14 @@ def run():
       pipeline_name=configs.PIPELINE_NAME,
       pipeline_root=_PIPELINE_ROOT,
       data_path=_DATA_PATH,
-      # TODO(step 7): (Optional) Uncomment here to use BigQueryExampleGen.
-      # query=configs.BIG_QUERY_QUERY,
-      preprocessing_fn=configs.PREPROCESSING_FN,
-      run_fn=configs.RUN_FN,
+      preprocessing_fn=configs.PREPROCESSING_MODULE,
+      run_fn=configs.TRAINING_MODULE,
       train_args=trainer_pb2.TrainArgs(num_steps=configs.TRAIN_NUM_STEPS),
       eval_args=trainer_pb2.EvalArgs(num_steps=configs.EVAL_NUM_STEPS),
       eval_accuracy_threshold=configs.EVAL_ACCURACY_THRESHOLD,
       serving_model_dir=_SERVING_MODEL_DIR,
-    
-      # Uncomment below to use Dataflow.
-      # beam_pipeline_args=configs.DATAFLOW_BEAM_PIPELINE_ARGS,
-    
       ai_platform_training_args=configs.GCP_AI_PLATFORM_TRAINING_ARGS,
-    
-      # Uncomment below to use Cloud AI Platform.
-      # ai_platform_serving_args=configs.GCP_AI_PLATFORM_SERVING_ARGS,
+      ai_platform_serving_args=configs.GCP_AI_PLATFORM_SERVING_ARGS,
   )
 
   runner = kubeflow_v2_dag_runner.KubeflowV2DagRunner(config=runner_config)
