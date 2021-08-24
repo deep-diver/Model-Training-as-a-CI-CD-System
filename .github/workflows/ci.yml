@@ -9,12 +9,12 @@ on:
 
 env:
   SUBSTITUTIONS: "
-            _PROJECT="gcp-ml-172005",\
-            _REGION="us-central1",\
-            _REPO_URL="https://github.com/deep-diver/Model-Training-as-a-CI-CD-System",\
-            _BRANCH="experiment-decoupling",\
-            _PIPELINE_NAME="tfx-pipeline",\
-            _BUCKET_PLACEHOLDER="kubeflowpipelines-default"
+            _PROJECT=gcp-ml-172005,\
+            _REGION=us-central1,\
+            _REPO_URL=https://github.com/deep-diver/Model-Training-as-a-CI-CD-System,\
+            _BRANCH=experiment-decoupling,\
+            _PIPELINE_NAME=tfx-pipeline,\
+            _BUCKET_PLACEHOLDER=kubeflowpipelines-default
             "
   
   MODULE_MODEL_PATH: "gs://gcp-ml-172005-kubeflowpipelines-default/modules/model.py" 
