@@ -16,9 +16,6 @@ env:
             _PIPELINE_NAME=tfx-pipeline,\
             _BUCKET_PLACEHOLDER=kubeflowpipelines-default
             "
-  
-  MODULE_MODEL_PATH: "gs://gcp-ml-172005-kubeflowpipelines-default/modules/model.py" 
-  MODULE_PREPROCESS_PATH: "gs://gcp-ml-172005-kubeflowpipelines-default/modules/preprocess.py"
     
 jobs:
   build:
