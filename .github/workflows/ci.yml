@@ -8,15 +8,15 @@ on:
   workflow_dispatch:
 
 env:
-  GCP_PROJECT_ID="gcp-ml-172005"
-  GCP_REGION="us-central1"
+  GCP_PROJECT_ID: "gcp-ml-172005"
+  GCP_REGION: "us-central1"
 
-  GCS_BUCKET_PLACEHOLDER="kubeflowpipelines-default"
+  GCS_BUCKET_PLACEHOLDER: "kubeflowpipelines-default"
 
-  REPO_URL="https://github.com/deep-diver/Model-Training-as-a-CI-CD-System"
-  BRANCH="experiment-decoupling"
+  REPO_URL: "https://github.com/deep-diver/Model-Training-as-a-CI-CD-System"
+  BRANCH: "experiment-decoupling"
 
-  PIPELINE_NAME="tfx-pipeline"
+  PIPELINE_NAME: "tfx-pipeline"
 
   SUBSTITUTIONS: "
             _PROJECT=$GCP_PROJECT_ID,\
@@ -72,6 +72,6 @@ jobs:
         if: steps.modules-change.outputs.src == 'true'
         run: |
           gcloud builds submit --no-source --timeout=60m \
-          --config build/pipeline-deployment.yaml \
+          --config build/partial-pipeline-deployment.yaml \
           --substitutions $SUBSTITUTIONS \
           --machine-type=n1-highcpu-8
