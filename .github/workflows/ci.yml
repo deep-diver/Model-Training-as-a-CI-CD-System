@@ -14,9 +14,7 @@ env:
             _REPO_URL=https://github.com/deep-diver/Model-Training-as-a-CI-CD-System,\
             _BRANCH=experiment-decoupling,\
             _PIPELINE_NAME=tfx-pipeline,\
-            _BUCKET_PLACEHOLDER=kubeflowpipelines-default
-            "
-    
+            "    
 jobs:
   build:
     runs-on: ubuntu-latest
