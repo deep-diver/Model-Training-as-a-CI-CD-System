@@ -40,7 +40,7 @@ jobs:
                   - 'modules/**'
 
       - name: trigger cloud build based on pipeline changes
-        if: steps.change.outputs.pipeline == 'true'
+        if: ${{ steps.change.outputs.pipeline == 'true' }}
         run: |
           gcloud builds submit --no-source --timeout=60m \
           --config build/full-pipeline-deployment.yaml \
@@ -48,7 +48,7 @@ jobs:
           --machine-type=n1-highcpu-8
 
       - name: trigger cloud build based on modules changes
-        if: steps.change.outputs.modules == 'true'
+        if: ${{ steps.change.outputs.modules == 'true' }}
         run: |
           gcloud builds submit --no-source --timeout=60m \
           --config build/partial-pipeline-deployment.yaml \
