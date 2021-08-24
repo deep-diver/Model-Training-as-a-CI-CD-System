@@ -23,7 +23,7 @@ env:
             _REGION=$GCP_REGION,\
             _REPO_URL=$REPO_URL,\
             _BRANCH=$BRANCH,\
-            _PIPELINE_NAME=$PIPELINE_NAME
+            _PIPELINE_NAME=$PIPELINE_NAME,\
             _BUCKET_PLACEHOLDER=$GCS_BUCKET_PLACEHOLDER
             "
   
