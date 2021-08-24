@@ -31,24 +31,18 @@ jobs:
           service_account_key: ${{ secrets.RUN_SA_KEY }}
           project_id: ${{ secrets.RUN_PROJECT }}
 
-      - name: check if tfx-pipeline folder has anything changed
+      - name: check if something changed
         uses: dorny/paths-filter@v2
-        id: tfx-pipeline-change
+        id: change
         with:
             filters: |
-                src:
+                pipeline:
                   - 'tfx-pipeline/**'
-
-      - name: check if modules folder has anything changed
-        uses: dorny/paths-filter@v2
-        id: modules-change
-        with:
-            filters: |
-                src:
-                  - 'modules/**'                  
+                modules:
+                  - 'modules/**'
 
       - name: trigger cloud build based on pipeline changes
-        if: steps.my-pipeline-change.outputs.src == 'true'
+        if: steps.change.outputs.pipeline == 'true'
         run: |
           gcloud builds submit --no-source --timeout=60m \
           --config build/full-pipeline-deployment.yaml \
@@ -56,7 +50,7 @@ jobs:
           --machine-type=n1-highcpu-8
 
       - name: trigger cloud build based on modules changes
-        if: steps.modules-change.outputs.src == 'true'
+        if: steps.change.outputs.modules == 'true'
         run: |
           gcloud builds submit --no-source --timeout=60m \
           --config build/partial-pipeline-deployment.yaml \
