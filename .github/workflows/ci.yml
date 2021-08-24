@@ -32,13 +32,13 @@ jobs:
       - name: check if something changed
         uses: dorny/paths-filter@v2.2.1
         id: filter
-        base: 'experiment-decoupling'
         with:
-            filters: |
-              pipeline:
-                - 'tfx-pipeline/**'
-              modules:
-                - 'modules/**'
+          base: 'experiment-decoupling'        
+          filters: |
+            pipeline:
+              - 'tfx-pipeline/**'
+            modules:
+              - 'modules/**'
 
       - name: trigger cloud build based on pipeline changes
         if: ${{ steps.filter.outputs.pipeline == 'true' }}
