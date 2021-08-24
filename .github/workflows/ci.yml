@@ -31,7 +31,8 @@ jobs:
 
       - name: check if something changed
         uses: dorny/paths-filter@v2.2.1
-        id: change
+        id: filter
+        base: experiment-decoupling
         with:
             filters: |
               pipeline:
@@ -40,7 +41,7 @@ jobs:
                 - 'modules/**'
 
       - name: trigger cloud build based on pipeline changes
-        if: ${{ steps.change.outputs.pipeline == 'true' }}
+        if: ${{ steps.filter.outputs.pipeline == 'true' }}
         run: |
           gcloud builds submit --no-source --timeout=60m \
           --config build/full-pipeline-deployment.yaml \
@@ -48,7 +49,7 @@ jobs:
           --machine-type=n1-highcpu-8
 
       - name: trigger cloud build based on modules changes
-        if: ${{ steps.change.outputs.modules == 'true' }}
+        if: ${{ steps.filter.outputs.modules == 'true' }}
         run: |
           gcloud builds submit --no-source --timeout=60m \
           --config build/partial-pipeline-deployment.yaml \
