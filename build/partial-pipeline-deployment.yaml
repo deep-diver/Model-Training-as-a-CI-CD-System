@@ -14,7 +14,7 @@ steps:
   id: 'Clone Repository'
 
 - name: 'gcr.io/cloud-builders/gsutil'
-  args: ['cp', '*.py', 'gs://$_PROJECT-$_BUCKET_PLACEHOLDER/modules']
+  args: ['cp', '*.py', 'gs://$_PROJECT-kubeflowpipelines-default/modules']
   dir: 'Model-Training-as-a-CI-CD-System/modules'
   id: 'Copy Modules'
   waitFor: ['Clone Repository']
