@@ -8,27 +8,17 @@ on:
   workflow_dispatch:
 
 env:
-  GCP_PROJECT_ID: "gcp-ml-172005"
-  GCP_REGION: "us-central1"
-
-  GCS_BUCKET_PLACEHOLDER: "kubeflowpipelines-default"
-
-  REPO_URL: "https://github.com/deep-diver/Model-Training-as-a-CI-CD-System"
-  BRANCH: "experiment-decoupling"
-
-  PIPELINE_NAME: "tfx-pipeline"
-
   SUBSTITUTIONS: "
-            _PROJECT=$GCP_PROJECT_ID,\
-            _REGION=$GCP_REGION,\
-            _REPO_URL=$REPO_URL,\
-            _BRANCH=$BRANCH,\
-            _PIPELINE_NAME=$PIPELINE_NAME,\
-            _BUCKET_PLACEHOLDER=$GCS_BUCKET_PLACEHOLDER
+            _PROJECT="gcp-ml-172005",\
+            _REGION="us-central1",\
+            _REPO_URL="https://github.com/deep-diver/Model-Training-as-a-CI-CD-System",\
+            _BRANCH="experiment-decoupling",\
+            _PIPELINE_NAME="tfx-pipeline",\
+            _BUCKET_PLACEHOLDER="kubeflowpipelines-default"
             "
   
-  MODULE_MODEL_PATH: "gs://$GCS_PROJECT_ID-$GCS_BUCKET_PLACEHOLDER/modules/model.py"
-  MODULE_PREPROCESS_PATH: "gs://$GCS_PROJECT_ID-$GCS_BUCKET_PLACEHOLDER/modules/preprocess.py"
+  MODULE_MODEL_PATH: "gs://gcp-ml-172005-kubeflowpipelines-default/modules/model.py" 
+  MODULE_PREPROCESS_PATH: "gs://gcp-ml-172005-kubeflowpipelines-default/modules/preprocess.py"
     
 jobs:
   build:
