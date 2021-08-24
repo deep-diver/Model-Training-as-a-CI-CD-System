@@ -28,8 +28,8 @@ def create_pipeline(
     pipeline_name: Text,
     pipeline_root: Text,
     data_path: Text,
-    preprocessing_fn: Text,
-    run_fn: Text,
+    preprocessing_module: Text,
+    training_module: Text,
     train_args: tfx.proto.TrainArgs,
     eval_args: tfx.proto.EvalArgs,
     eval_accuracy_threshold: float,
@@ -68,12 +68,12 @@ def create_pipeline(
   transform = tfx.components.Transform(
       examples=example_gen.outputs['examples'],
       schema=schema_gen.outputs['schema'],
-      preprocessing_fn=preprocessing_fn)
+      module_file=preprocessing_module)
   components.append(transform)
 
   # Uses user-provided Python function that implements a model using TF-Learn.
   trainer_args = {
-      'run_fn': run_fn,
+      'module_file': training_module,
       'transformed_examples': transform.outputs['transformed_examples'],
       'schema': schema_gen.outputs['schema'],
       'transform_graph': transform.outputs['transform_graph'],
