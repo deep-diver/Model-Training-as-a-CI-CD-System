@@ -14,13 +14,6 @@ steps:
   id: 'Clone Repository'
 
 - name: 'gcr.io/gcp-ml-172005/cb-tfx:latest'
-  entrypoint: python
-  args: ['-m', 'pytest', '.']
-  dir: 'Model-Training-as-a-CI-CD-System/tfx-pipeline/models'
-  id: 'Unit Test'
-  waitFor: ['Clone Repository']
-
-- name: 'gcr.io/gcp-ml-172005/cb-tfx:latest'
   entrypoint: 'tfx'
   args: ['pipeline', 'compile',
           '--pipeline-path', 'kubeflow_v2_runner.py',
