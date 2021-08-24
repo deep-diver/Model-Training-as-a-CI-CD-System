@@ -34,10 +34,10 @@ jobs:
         id: change
         with:
             filters: |
-                pipeline:
-                  - 'tfx-pipeline/**'
-                modules:
-                  - 'modules/**'
+              pipeline:
+                - 'tfx-pipeline/**'
+              modules:
+                - 'modules/**'
 
       - name: trigger cloud build based on pipeline changes
         if: ${{ steps.change.outputs.pipeline == 'true' }}
