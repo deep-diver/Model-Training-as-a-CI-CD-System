@@ -21,7 +21,7 @@ steps:
         ]
   dir: 'Model-Training-as-a-CI-CD-System/tfx-pipeline'
   id: 'Compile Pipeline'
-  waitFor: ['Unit Test']
+  waitFor: ['Clone Repository']
 
 - name: 'gcr.io/gcp-ml-172005/cb-tfx:latest'
   entrypoint: 'tfx'
