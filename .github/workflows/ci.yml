@@ -32,7 +32,7 @@ jobs:
       - name: check if something changed
         uses: dorny/paths-filter@v2.2.1
         id: filter
-        base: experiment-decoupling
+        base: 'experiment-decoupling'
         with:
             filters: |
               pipeline:
