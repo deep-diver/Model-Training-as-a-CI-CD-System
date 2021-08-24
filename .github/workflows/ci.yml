@@ -30,7 +30,7 @@ jobs:
           project_id: ${{ secrets.RUN_PROJECT }}
 
       - name: check if something changed
-        uses: dorny/paths-filter@v2
+        uses: dorny/paths-filter@v2.2.1
         id: change
         with:
             filters: |
