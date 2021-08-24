@@ -1,21 +1,35 @@
 name: CI
 
 on:
-  # push:
-  #   branches: [ main ]
+  push:
+    branches: [ experiment-decoupling ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 env:
-  SUBSTITUTIONS: "
-            _PROJECT=gcp-ml-172005,\
-            _REGION=us-central1,\
-            _REPO_URL=https://github.com/deep-diver/Model-Training-as-a-CI-CD-System,\
-            _BRANCH=experiment-decoupling,\
-            _PIPELINE_NAME=tfx-pipeline
-            "
+  GCP_PROJECT_ID="gcp-ml-172005"
+  GCP_REGION="us-central1"
 
+  GCS_BUCKET_PLACEHOLDER="kubeflowpipelines-default"
+
+  REPO_URL="https://github.com/deep-diver/Model-Training-as-a-CI-CD-System"
+  BRANCH="experiment-decoupling"
+
+  PIPELINE_NAME="tfx-pipeline"
+
+  SUBSTITUTIONS: "
+            _PROJECT=$GCP_PROJECT_ID,\
+            _REGION=$GCP_REGION,\
+            _REPO_URL=$REPO_URL,\
+            _BRANCH=$BRANCH,\
+            _PIPELINE_NAME=$PIPELINE_NAME
+            _BUCKET_PLACEHOLDER=$GCS_BUCKET_PLACEHOLDER
+            "
+  
+  MODULE_MODEL_PATH: "gs://$GCS_PROJECT_ID-$GCS_BUCKET_PLACEHOLDER/modules/model.py"
+  MODULE_PREPROCESS_PATH: "gs://$GCS_PROJECT_ID-$GCS_BUCKET_PLACEHOLDER/modules/preprocess.py"
+    
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -30,16 +44,32 @@ jobs:
           service_account_key: ${{ secrets.RUN_SA_KEY }}
           project_id: ${{ secrets.RUN_PROJECT }}
 
-      # - name: check if tfx-pipeline folder has anything changed
-      #   uses: dorny/paths-filter@v2
-      #   id: my-pipeline-change
-      #   with:
-      #       filters: |
-      #           src:
-      #             - 'tfx-pipeline/**'
+      - name: check if tfx-pipeline folder has anything changed
+        uses: dorny/paths-filter@v2
+        id: tfx-pipeline-change
+        with:
+            filters: |
+                src:
+                  - 'tfx-pipeline/**'
 
-      - name: trigger cloud build based on component changes
-        # if: steps.my-pipeline-change.outputs.src == 'true'
+      - name: check if modules folder has anything changed
+        uses: dorny/paths-filter@v2
+        id: modules-change
+        with:
+            filters: |
+                src:
+                  - 'modules/**'                  
+
+      - name: trigger cloud build based on pipeline changes
+        if: steps.my-pipeline-change.outputs.src == 'true'
+        run: |
+          gcloud builds submit --no-source --timeout=60m \
+          --config build/full-pipeline-deployment.yaml \
+          --substitutions $SUBSTITUTIONS \
+          --machine-type=n1-highcpu-8
+
+      - name: trigger cloud build based on modules changes
+        if: steps.modules-change.outputs.src == 'true'
         run: |
           gcloud builds submit --no-source --timeout=60m \
           --config build/pipeline-deployment.yaml \

@@ -1,0 +1,43 @@
+######################################################################################################
+# CI/CD steps for Cloud Build to get a compiled TFX pipeline ready for exectuion.
+# Referenced from:
+# https://github.com/GoogleCloudPlatform/mlops-with-vertex-ai/blob/main/build/pipeline-deployment.yaml
+######################################################################################################
+
+steps:
+# Clone the repository.
+- name: 'gcr.io/cloud-builders/git'
+  args: ['clone', '--single-branch', '--branch',
+         '$_BRANCH', '$_REPO_URL',
+         '--depth', '1',
+         '--verbose']
+  id: 'Clone Repository'
+
+- name: 'gcr.io/cloud-builders/gsutil'
+  args: ['cp', '*.py', 'gs://$_PROJECT-$_BUCKET_PLACEHOLDER/modules']
+  dir: 'Model-Training-as-a-CI-CD-System/modules'
+  id: 'Copy Modules'
+  waitFor: ['Clone Repository']
+
+- name: 'gcr.io/gcp-ml-172005/cb-tfx:latest'
+  entrypoint: 'tfx'
+  args: ['pipeline', 'create',
+          '--pipeline-path', 'kubeflow_v2_runner.py',
+          '--engine', 'vertex',
+        ]
+  dir: 'Model-Training-as-a-CI-CD-System/tfx-pipeline'
+  id: 'Create Pipeline'
+  waitFor: ['Copy Modules']
+
+# --project=gcp-ml-172005 --region=us-central1
+- name: 'gcr.io/gcp-ml-172005/cb-tfx:latest'
+  entrypoint: 'tfx'
+  args: ['run', 'create',
+          '--engine', 'vertex',
+          '--pipeline-name', '$_PIPELINE_NAME',
+          '--project', '$_PROJECT',
+          '--region', '$_REGION'
+        ]
+  dir: 'Model-Training-as-a-CI-CD-System/tfx-pipeline'
+  id: 'Create Pipeline Run'
+  waitFor: ['Create Pipeline']
