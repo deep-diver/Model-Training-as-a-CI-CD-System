@@ -38,4 +38,4 @@ This project demonstrates the machine model training as a CI/CD system in GCP pl
 
 ## Acknowledgements
 
-[ML-GDE program](https://developers.google.com/programs/experts/) for providing GCP credits.
+[ML-GDE program](https://developers.google.com/programs/experts/) for providing GCP credits. Thanks to [Karl Weinmeister](https://twitter.com/kweinmeister) for providing review feedback on this project.
