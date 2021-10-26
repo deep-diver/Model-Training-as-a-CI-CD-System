@@ -2,6 +2,10 @@
 
 This project demonstrates the machine model training as a CI/CD system in GCP platform. You will see more detailed workflow in the below section, but it is about rebuilding and redeploying (continuous integration) the currently deployed machine learning pipeline based on changes in code. Such changes could happen in the training data, data pre-processing logic, model architecture and training code, custom pipeline components, and so on.
 
+An accompanying blog post for this project is available on Google Cloud: [Model training as a CI/CD system: Part I](https://cloud.google.com/blog/topics/developers-practitioners/model-training-cicd-system-part-i). Part II can be found [here](https://cloud.google.com/blog/topics/developers-practitioners/model-training-cicd-system-part-ii) (code: [sayakpaul/
+CI-CD-for-Model-Training](https://github.com/sayakpaul/CI-CD-for-Model-Training)).
+
+
 ## Workflow #1
 
 ![workflow1](figures/workflow1.png)
